@@ -13,23 +13,24 @@ struct ContentView: View {
     @State private var nummer = [1,2,0]
     @State private var punkte = 1000
     private var einsatz = 10
+    let backgroundImage = UIImageView(image: UIImage(named: "strand"))
+    
     
     var body: some View {
+        
         ZStack{
             //Hintergrund
-            //Image("strand")
-                
+         Image("strand")
+            .resizable()
+            .aspectRatio(contentMode: .fill)
+            .frame(minWidth: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
             //titel
             VStack{
                 Spacer()
                 HStack{
-                    Image(systemName: "star.fill")
-                        .foregroundColor(.yellow)
                     Text("Sloterino")
                         .bold()
                         .foregroundColor(.black)
-                    Image(systemName: "star.fill")
-                        .foregroundColor(.yellow)
                 }.scaleEffect(2)
                 
                 Spacer()
@@ -70,7 +71,13 @@ struct ContentView: View {
                     self.nummer[2] = Int.random(in: 0...self.slots.count - 1)
                     
                     //gewinn checken
-                    
+                    if self.nummer[0] == self.nummer[1] && self.nummer[1] == self.nummer[2]{
+                        //Gewonnen
+                        self.punkte += self.einsatz * 10
+                    }
+                    else{
+                        self.punkte -= self.einsatz
+                    }
                 }){
                     Text("Drehen")
                         .bold()
@@ -79,8 +86,10 @@ struct ContentView: View {
                         .padding(.horizontal, 30)
                         .background(Color.red)
                         .cornerRadius(20)
+                    
                 }
                 Spacer()
+                    
             }
         }
     }
